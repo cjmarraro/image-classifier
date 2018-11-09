@@ -5,7 +5,7 @@ import scipy.ndimage as spimg
 import numpy as np
 import h5py
 import tqdm, os, time
-from img_parser import data, labels, files_test
+from parse_files import data, labels, files_test
 
 
 np.set_printoptions(threshold=1000)
