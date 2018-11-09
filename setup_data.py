@@ -2,10 +2,10 @@
 import h5py
 import numpy as np
 
- # Construct dictionary of label, train and test datasets
- # from hdf5 files for network feeding. 
+ # Construct dictionary of label, training and test datasets
+ # from hdf5 files for convenient network feeding. 
  # Final preprocessing steps: normalization 
- # and feature transformation
+ # and feature transformation (datatype and data structure)
 
 def get_data():
     f1 = h5py.File('images_train.hdf5', 'r')
@@ -51,7 +51,7 @@ def get_data():
 
 
 def main():
-  """Verify data structure is appropriate shape/type upon loading"""
+  """Verify data structure is appropriate shape upon loading"""
   data_sets = get_data()
   print(data_sets['images_train'].shape)
   print(data_sets['labels_train'].shape)

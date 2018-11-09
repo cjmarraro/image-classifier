@@ -10,7 +10,7 @@ from img_parser import data, labels, files_test
 
 np.set_printoptions(threshold=1000)
 
-# Sample data/labels
+# Sample data and label sets
 x_train = data[0:int(len(data)*0.6)]
 y_train = labels[0:int(len(labels)*0.6)]
 
@@ -21,19 +21,22 @@ x_test = files_test
 
 # Use h5py to store large uncompressed image arrays to reduce memory requirements
 def ImgRdr(arr, dataset):
-    """Read images into scipy and convert to gray scale using generator function for memory efficiency."""
-    slice = len(arr) # length of input arr
+    
+    """Function for reading images into scipy and flattening them
+     to grayscale. Use generator object for memory efficiency."""
+    
+    slice = len(arr) # length of input array
     files_convert = (spimg.imread(path, flatten=True) for path in arr[:slice])
 
     i = 0
     for r in tqdm.tqdm(files_convert, total=slice):
-        # gray scale conversion
+        # grayscale conversion: [0,255] --> [0,1]
         r = r.astype('float32')/255
         # insert row into dataset
         dataset[i] = r
         i += 1
 
-# Write hdf5 files (training data, test data) and store datasets on disk
+# Write hdf5 files (training data, test data) to store datasets on disk
 dir = os.getcwd()
 for k in ['images_train.hdf5', "images_test.hdf5"]:
     if not os.path.exists(os.path.join(dir, k)):

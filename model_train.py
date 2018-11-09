@@ -8,13 +8,13 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from setup_data import get_data
 
-# Create directory to save image predictions by uncommenting:
-# os.mkdir('img_prediction_dir')
+# Create directory to save image predictions
+os.mkdir('img_prediction_dir')
 
 # Define system parameters and
 # save logs for each run in separate directory
 
-beginTime = time.time()
+begin = time.time()
 
 flags = tf.flags
 FLAGS = flags.FLAGS
@@ -41,6 +41,7 @@ images_test = data_sets['images_test']
 
 # Model Parameters 
 def ceil(a,b):
+    """Define interval points so that batched linear space is without remainder"""
     return -(-a//b)
 
 N = len(images_train)
@@ -68,7 +69,7 @@ y = tf.nn.softmax(tf.matmul(x, W) + b)
 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=y, labels=y_))
 train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
 
-# Training Metrics
+# Evaluation Metrics
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
@@ -119,7 +120,7 @@ with sess.as_default():
     print('Total time: {:5.2f}s'.format(endTime - beginTime))
 
 #========================== Prediction ===========================
-# Save randomly selected images from test data with predicted class 
+# Save randomly selected images from test data with predicted class label 
 # in filename
      
     num = [random.randint(0, images_test.shape[0]) for i in range(100)]
