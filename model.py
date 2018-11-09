@@ -37,7 +37,13 @@ images_test = data_sets['images_test']
 
 # Training Parameters 
 def ceil(a,b):
-    """Define interval endpoints for mini-batches"""
+    """Define interval length for mini-batches:
+        argument:
+            - a: length of dataset to be partitioned into subintervals
+            - b: approx. length of subinterval
+        return:
+            - integer representing interval length that divides dataset without remainder
+    """
     return -(-a//b)
 
 N = len(images_train)
