@@ -8,12 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from setup_data import get_data
 
-# Create directory to save image predictions
-output_dir = os.mkdir('img_prediction_dir')
-
-# Define system parameters and
-# save logs for each run in separate directory
-
+# Define system parameters and save logs for each run in separate directory
 begin = time.time()
 
 flags = tf.flags
@@ -21,13 +16,14 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('train_dir', 'tf_logs', 'Directory to put the training data.')
 
 logdir = FLAGS.train_dir + '/' + datetime.now().strftime('%Y%m%d-%H%M%S') + '/'
+# bash:
+# $ tensorboard --logdir ./  to view Tensorboard output
 
-# cmd line: 
-# $ tensorboard --logdir ./  
-# to view tensorboard output
+# Create directory to save image predictions
+output_dir = os.mkdir('img_prediction_dir')
 
 
-# Prepare data
+# Prep data
 data_sets = get_data()
 
 images_train = data_sets['images_train']
@@ -39,9 +35,9 @@ labels_val = data_sets['labels_val']
 images_test = data_sets['images_test']
 
 
-# Model Parameters 
+# Training Parameters 
 def ceil(a,b):
-    """Define interval points so that batched linear space is without remainder"""
+    """Define interval endpoints so that batched linear space is without remainder"""
     return -(-a//b)
 
 N = len(images_train)
@@ -55,7 +51,7 @@ IMG_SIZE = 300*300
 learning_rate = 0.001
 
 
-# Define Model Inputs
+# Set Model Inputs
 x = tf.placeholder(tf.float32, shape=[None, IMG_SIZE])
 y_ = tf.placeholder(tf.int64, [None,2])
 
@@ -116,11 +112,11 @@ with sess.as_default():
     
     print('Validation accuracy {:g}'.format(validation_acc))
 
-    endTime = time.time()
-    print('Total time: {:5.2f}s'.format(endTime - beginTime))
+    end = time.time()
+    print('Total time: {:5.2f}s'.format(end - begin))
 
 #========================== Prediction ===========================
-# Save randomly selected images from test data with predicted class label 
+# Save randomly selected images from test data with predicted class label, 0 or 1,
 # in filename
      
     num = [random.randint(0, images_test.shape[0]) for i in range(100)]
