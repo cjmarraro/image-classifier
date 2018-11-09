@@ -9,7 +9,7 @@ import matplotlib.image as mpimg
 from setup_data import get_data
 
 # Create directory to save image predictions
-os.mkdir('img_prediction_dir')
+output_dir = os.mkdir('img_prediction_dir')
 
 # Define system parameters and
 # save logs for each run in separate directory
@@ -133,10 +133,10 @@ with sess.as_default():
     print("scores:", y.eval({x: test_img}))
     print('class:', classification)
 
-
+    assert(os.path.isdir(output_dir))
     for i, img_i in enumerate(test_img):
         plt.xlabel('Test prediction: {classification[i]}')
-        plt.imsave(os.path.join('img_prediction_dir', 'img-{}-class-{}.png'.format(str(i),\
+        plt.imsave(os.path.join(output_dir, 'img-{}-class-{}.png'.format(str(i),\
          classification[i])), img_i.reshape(300, 300), cmap=plt.cm.binary)
 
 
