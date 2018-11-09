@@ -37,7 +37,7 @@ images_test = data_sets['images_test']
 
 # Training Parameters 
 def ceil(a,b):
-    """Define interval endpoints so that batched linear space is without remainder"""
+    """Define interval endpoints for mini-batches"""
     return -(-a//b)
 
 N = len(images_train)
