@@ -5,7 +5,7 @@ This project covers the procedural steps for developing an image classification 
 
 The images depict shoes from an online retail database, with each design/product id shown from multiple  viewpoints (between 9 and 13 views). Sideviews with sneakers' toes pointing to the right is the target. 
 
-(Although csv files containing the image urls is not included in the repository due to privacy restrictions, a generic program for downloading and processing images is provided in the `import_imgs_from_url.py` module.)
+(Although csv files containing the image urls is not included in the repository due to privacy restrictions, a generic program for downloading and processing images is provided in the `load_url.py` module.)
 
 After downloading tar files, unzip data: 
 
