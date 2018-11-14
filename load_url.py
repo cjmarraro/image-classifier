@@ -11,26 +11,29 @@ def image_indexing(data_file):
         reader = csv.reader(f)
         dataset = list(reader)
         
-        for col in dataset:
-            if len(col) == 3:
-                images.append([col[0], col[1], col[2]])
+        for headers in dataset:
+            if len(headers) == 3:
+                images.append([headers[0], headers[1], headers[2]])
             else:
-                images.append([col[0], col[1]])
+                images.append([headers[0], headers[1]])
                 
         return images[1:]
 
 def download_image(key_url):
-    out_dir = sys.argv[2]
-    while len(key_url[0]) == 3:
-        (key, url, labels) = key_url
-        filename = os.path.join(out_dir, str(labels)+'_'+'{}'.format(key)+'.jpeg')
+    out_dir = sys.argv[2]    
+    try:
+        (key, url) = key_url
+        filename = os.path.join(out_dir, '{}'.format(key)+'.jpeg')
+    except:
+        ValueError
         
-        break 
-    (key, url) = key_url
-    filename = os.path.join(out_dir, '{}'.format(key)+'.jpeg')
-     
-    if os.path.exists(filename):
-        
+    try:
+        (key, url, labels )= key_url
+        filename = os.path.join(out_dir, str(labels)+'_'+'{}'.format(key)+'.jpeg') 
+    except:
+        ValueError
+
+    if os.path.exists(filename):  
         print('Image {} already exists. Skipping download.'.format(filename))
         return 
     
