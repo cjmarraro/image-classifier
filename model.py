@@ -19,10 +19,6 @@ logdir = FLAGS.train_dir + '/' + datetime.now().strftime('%Y%m%d-%H%M%S') + '/'
 # bash:
 # $ tensorboard --logdir ./  to view Tensorboard output
 
-# Create directory to save image predictions
-output_dir = os.mkdir('img_prediction_dir')
-
-
 # Prep data
 data_sets = get_data()
 
@@ -82,7 +78,7 @@ merged = tf.summary.merge_all()
 saver = tf.train.Saver()
 
 # ======================== Initialize TF Session =================================
-# Launch the graph
+# Launch graph
 sess = tf.Session()
 
 with sess.as_default():
@@ -121,10 +117,8 @@ with sess.as_default():
     end = time.time()
     print('Total time: {:5.2f}s'.format(end - begin))
 
-#========================== Prediction ===========================
-# Save randomly selected images from test data with predicted class label, 0 or 1,
-# in filename
-     
+#========================== Prediction ===========================================
+# Get randomly selected images from test data and predicted class label, 0 or 1
     num = [random.randint(0, images_test.shape[0]) for i in range(100)]
     test_img = images_test[num].reshape([-1, IMG_SIZE])      
 
@@ -135,7 +129,13 @@ with sess.as_default():
     print("scores:", y.eval({x: test_img}))
     print('class:', classification)
 
-    assert(os.path.isdir(output_dir))
+
+# Check directory exists to save image predictions
+    try:
+        output_dir = os.mkdir('img_prediction_dir')
+    except:
+        FileExistsError
+
     for i, img_i in enumerate(test_img):
         plt.xlabel('Test prediction: {classification[i]}')
         plt.imsave(os.path.join(output_dir, 'img-{}-class-{}.png'.format(str(i),\
