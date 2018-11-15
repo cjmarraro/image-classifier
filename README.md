@@ -1,7 +1,7 @@
 # TensorFlow and Python Image Recognition 
 
 ## Description
-The project provides components for developing an image classification system. This includes web scraping of image urls/downloading, parsing image files, further image preprocessing for creating hdf5 files to store relevent datasets, and building a predictive model in Tensorflow to assign labels to test images.
+The project provides components for developing an image classification system. This includes web scraping image urls for downloading, parsing image files, image preprocessing and creating hdf5 files to store relevent datasets, and building a predictive model in Tensorflow to assign labels to test images.
 
 The images are of shoes from an online retail database, with each design/product displayed at various angles (9 to 13 views per design). Sideviews of sneakers' toes pointing to the right is the target. 
 
