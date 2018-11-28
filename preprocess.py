@@ -5,7 +5,32 @@ import scipy.ndimage as spimg
 import numpy as np
 import h5py
 import tqdm, os, time
-from parse_files import data, labels, files_test
+from random import shuffle
+
+prefix_path_train = 'training_dat'
+prefix_path_test = 'test_dat'
+
+# Traverse filenames in image directory via list comprehension 
+files_train = [os.path.join(prefix_path_train, name) for name in os.listdir(prefix_path_train)]
+files_test = [os.path.join(prefix_path_test, name) for name in os.listdir(prefix_path_test)]
+
+# One Hot Encoding
+# Assign label 0 or 1 to corresponding image --> [('filename', [1,0] or [0,1])]. Target image := [0,1]
+d=[]
+for i in files_train:
+    if i.split('/')[1].startswith('1'):
+        d.append([i, [0.,1.]])
+    else:
+        d.append([i, [1.,0.]])
+
+# Shuffle filename indices randomly w.r.t. labels. 
+shuffle(d)
+# Create data and label arrays 
+data, labels = zip(*d)
+del d
+
+# Create test data array
+shuffle(files_test)
 
 
 np.set_printoptions(threshold=1000)
@@ -20,11 +45,9 @@ y_val = labels[int(len(labels)*0.6):]
 x_test = files_test
 
 # Use h5py to store large uncompressed image arrays to reduce memory requirements
-def ImgRdr(arr, dataset):
-    
-    """Function for reading images into scipy and flattening them
-     to grayscale. Use generator object for memory efficiency."""
-    
+def ImgRdr(arr, dataset):  
+    """Function for reading images into scipy and flattening 
+     to grayscale. Use generator object for memory efficiency."""   
     slice = len(arr) # length of input array
     files_convert = (spimg.imread(path, flatten=True) for path in arr[:slice])
 
